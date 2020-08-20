@@ -1,7 +1,6 @@
 package com.jitterted.yacht.adapter.ui
 
 import com.jitterted.yacht.domain.Game
-import com.jitterted.yacht.domain.ScoreCategory
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
@@ -45,12 +44,13 @@ class MainView : View() {
                 }
                 vbox {
                     padding = Insets(10.0)
-                    ScoreCategory.values().forEach {
-                        button(it.toString()) {
+                    game.scoredCategories().forEach {
+                        button(it.scoreCategory().toString()) {
                             action {
-                                game.assignRollTo(it)
+                                game.assignRollTo(it.scoreCategory())
                                 scoreProperty.value = game.score()
                                 canRollProperty.value = game.roundCompleted()
+                                setDisable(true) // cheating, not connected to underlying domain model
                             }
                         }
                     }
